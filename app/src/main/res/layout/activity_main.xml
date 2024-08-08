@@ -30,7 +30,6 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/btn_tap_me"
         android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:visibility="gone"/>
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>
