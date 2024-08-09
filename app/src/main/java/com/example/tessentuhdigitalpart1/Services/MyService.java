@@ -12,11 +12,15 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.tessentuhdigitalpart1.MainActivity;
 import com.example.tessentuhdigitalpart1.R;
 import com.google.android.material.button.MaterialButton;
 
-public class MyService extends Service {
+import java.util.Random;
 
+public class MyService extends Service {
+    private View floatingView;
+    private WindowManager windowManager;
     private final IBinder binder = new LocalBinder();
     private Callback callback;
 
@@ -45,15 +49,25 @@ public class MyService extends Service {
     }
 
     private void showFloatingButton() {
-        WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        View floatingView = LayoutInflater.from(this).inflate(R.layout.myservice_layout, null);
+        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        floatingView = LayoutInflater.from(this).inflate(R.layout.myservice_layout, null);
         Button sendMessageButton = floatingView.findViewById(R.id.btn_tap_service);
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (callback != null) {
-                    callback.onServiceMessage("Hello from Service!");
+                    Random random = new Random();
+                    int randomNumber = random.nextInt(9999);
+                    callback.onServiceMessage("Random number from Service: "+randomNumber+"");
                 }
+////                // Menghapus floating view sebelum menghentikan service
+                if (floatingView != null && windowManager != null) {
+                    windowManager.removeView(floatingView);
+                }
+//
+//                // Menghentikan service
+//                stopSelf();
+
             }
         });
 
@@ -65,5 +79,13 @@ public class MyService extends Service {
                 android.graphics.PixelFormat.TRANSLUCENT);
 
         windowManager.addView(floatingView, params);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (floatingView != null && windowManager != null) {
+            windowManager.removeView(floatingView);
+        }
     }
 }

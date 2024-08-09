@@ -19,8 +19,8 @@
         android:id="@+id/btn_tap_me"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tap Me"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:text="Tap Me" />
 
     <TextView
         android:id="@+id/tv_result"

@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements MyService.Callbac
     private MyService myService;
     private boolean isBound = false;
 
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+    public ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             MyService.LocalBinder binder = (MyService.LocalBinder) service;
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements MyService.Callbac
 
     private void startAndBindService() {
         Intent intent = new Intent(MainActivity.this, MyService.class);
+        startService(intent);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements MyService.Callbac
     @Override
     public void onServiceMessage(String message) {
         tvResult.setText(message);
+        unbindService(serviceConnection);
     }
 
     @Override
